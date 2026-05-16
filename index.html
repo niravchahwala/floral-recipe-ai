@@ -3,197 +3,220 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Floral Recipe AI — by Nirav Chahwala</title>
+<title>WedIQ Floral Magic Tool</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --cream:#F9F5EF;--warm:#FDFAF6;--gold:#C4A96A;--gold-l:#E8D9B5;--gold-d:#8B7340;
-  --sage:#7A8C6E;--sage-l:#C5CFC0;--char:#2C2C2C;--grey:#6B6B6B;--lgrey:#E8E4DE;--bdr:#DDD6C8;
+  --black:#0F0D0C;--dark:#1C1917;--mid:#2D2320;
+  --rose:#C47E84;--rose-l:#F0D5D8;--rose-d:#8B4A50;
+  --warm:#FDFAF8;--cream:#F8F4F0;--off:#F2ECE8;
+  --grey:#7A6B68;--lgrey:#E8E0DC;--bdr:#DDD0CC;
+  --text:#1C1917;--sub:#7A6B68;
 }
-body{font-family:'Jost',Georgia,serif;background:var(--cream);color:var(--char);min-height:100vh}
+body{font-family:'DM Sans',sans-serif;background:var(--warm);color:var(--text);min-height:100vh}
 
 /* HEADER */
-.fra-header{background:var(--char);padding:18px 32px;display:flex;align-items:center;justify-content:space-between}
-.fra-logo{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:var(--gold-l);letter-spacing:3px}
-.fra-logo em{color:var(--gold);font-style:italic}
-.fra-badge{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#888;border:1px solid #444;padding:4px 12px;border-radius:20px}
+.hdr{background:var(--black);padding:0 48px;height:64px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #2A2320}
+.hdr-logo{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#F8F4F0;letter-spacing:1px}
+.hdr-tool{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#6A5A57}
+.hdr-nav{display:flex;align-items:center;gap:24px}
+.hdr-link{font-size:12px;color:#5A4A47;text-decoration:none;letter-spacing:.5px;transition:color .2s}
+.hdr-link:hover{color:var(--rose)}
+.hdr-btn{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--black);background:var(--rose);border:none;padding:8px 18px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .2s}
+.hdr-btn:hover{background:var(--rose-d)}
 
-/* API KEY SCREEN */
-#apiScreen{max-width:560px;margin:80px auto;padding:0 20px}
-.api-card{background:var(--warm);border:1px solid var(--bdr);border-radius:4px;padding:40px}
-.api-icon{font-size:32px;text-align:center;margin-bottom:16px;opacity:.6}
-.api-h{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;text-align:center;margin-bottom:8px}
-.api-sub{font-size:13px;color:var(--grey);text-align:center;line-height:1.7;margin-bottom:28px}
-.api-lbl{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--grey);margin-bottom:8px}
+/* KEY BAR */
+#keyBar{display:none;background:#F0F5EE;border-bottom:1px solid #C5D5C0;padding:9px 48px;font-size:11px;color:#4A6B40;align-items:center;justify-content:space-between}
+#btnChangeKey{background:none;border:none;font-size:11px;color:var(--rose-d);cursor:pointer;font-family:'DM Sans',sans-serif;text-decoration:underline;letter-spacing:.3px}
+
+/* API SCREEN */
+#apiScreen{max-width:500px;margin:80px auto 60px;padding:0 24px}
+.api-eyebrow{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--rose);text-align:center;margin-bottom:16px}
+.api-h{font-family:'Playfair Display',serif;font-size:32px;font-weight:600;text-align:center;line-height:1.2;margin-bottom:10px;color:var(--dark)}
+.api-h em{font-style:italic;color:var(--rose-d)}
+.api-tagline{font-size:14px;color:var(--sub);text-align:center;line-height:1.7;margin-bottom:36px}
+.api-card{background:#fff;border:1px solid var(--bdr);padding:36px;border-top:3px solid var(--rose)}
+.api-safety{background:var(--off);border-left:3px solid #A5C5A0;padding:12px 16px;font-size:12px;color:#4A6B40;line-height:1.6;margin-bottom:24px}
+.api-lbl{display:block;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--sub);margin-bottom:9px;font-weight:500}
 .api-input-wrap{position:relative;margin-bottom:8px}
-#apiKeyInput{width:100%;padding:12px 44px 12px 14px;border:1px solid var(--bdr);background:var(--cream);font-family:'Jost',sans-serif;font-size:13px;color:var(--char);border-radius:2px;outline:none;letter-spacing:1px}
-#apiKeyInput:focus{border-color:var(--gold)}
-#toggleKey{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:var(--grey);padding:0}
-.api-hint{font-size:11px;color:var(--grey);margin-bottom:20px;line-height:1.6}
-.api-hint a{color:var(--gold-d);text-decoration:none}
-.api-hint a:hover{text-decoration:underline}
-.api-safety{background:#F0F5EE;border:1px solid #C5CFC0;border-radius:3px;padding:12px 14px;font-size:11px;color:#4A6B40;line-height:1.6;margin-bottom:20px}
-.api-safety strong{font-weight:600}
-#btnSaveKey{display:block;width:100%;padding:14px;background:var(--gold);color:var(--char);font-family:'Jost',sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;border:none;cursor:pointer;border-radius:2px;transition:background .2s}
-#btnSaveKey:hover{background:var(--gold-d);color:#fff}
-#apiError{display:none;background:#FFF0F0;border:1px solid #FFCCCC;padding:10px 14px;border-radius:3px;font-size:12px;color:#C0392B;margin-top:12px}
-
-/* KEY STATUS BAR */
-#keyBar{display:none;background:#F0F5EE;border-bottom:1px solid #C5CFC0;padding:8px 32px;font-size:11px;color:#4A6B40;display:none;align-items:center;justify-content:space-between}
-#keyBar span{display:flex;align-items:center;gap:6px}
-#btnChangeKey{background:none;border:none;font-size:11px;color:var(--gold-d);cursor:pointer;font-family:'Jost',sans-serif;text-decoration:underline}
+#apiKeyInput{width:100%;padding:13px 46px 13px 16px;border:1px solid var(--bdr);background:var(--cream);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);outline:none;letter-spacing:.5px;transition:border-color .2s}
+#apiKeyInput:focus{border-color:var(--rose)}
+#toggleKey{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:14px;color:var(--sub);padding:0;font-family:'DM Sans',sans-serif}
+.api-hint{font-size:11px;color:var(--sub);margin-bottom:24px;line-height:1.7}
+.api-hint a{color:var(--rose-d);text-decoration:none;border-bottom:1px solid var(--rose-l)}
+#btnSaveKey{display:block;width:100%;padding:15px;background:var(--dark);color:#F8F4F0;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;border:none;cursor:pointer;transition:background .2s}
+#btnSaveKey:hover{background:var(--rose-d)}
+#apiError{display:none;background:#FFF0F0;border-left:3px solid #FFAAAA;padding:10px 14px;font-size:12px;color:#C0392B;margin-top:12px}
+.api-footer{text-align:center;margin-top:24px;font-size:11px;color:var(--sub);letter-spacing:.5px}
 
 /* UPLOAD SCREEN */
-#uploadScreen{display:none;max-width:860px;margin:0 auto;padding:40px 20px}
-.fra-heading{text-align:center;margin-bottom:36px}
-.fra-h1{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;line-height:1.2}
-.fra-h1 em{font-style:italic;color:var(--gold-d)}
-.fra-sub{margin-top:12px;font-size:14px;color:var(--grey);line-height:1.7;max-width:520px;margin-left:auto;margin-right:auto}
-.drop-zone{border:2px dashed var(--bdr);border-radius:4px;background:var(--warm);padding:52px 32px;text-align:center;cursor:pointer;transition:all .25s;position:relative}
-.drop-zone:hover,.drop-zone.drag{border-color:var(--gold);background:#FDF8F0}
+#uploadScreen{display:none;max-width:860px;margin:0 auto;padding:60px 24px 40px}
+.page-eyebrow{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--rose);text-align:center;margin-bottom:14px}
+.page-h{font-family:'Playfair Display',serif;font-size:40px;font-weight:600;text-align:center;line-height:1.2;color:var(--dark);margin-bottom:12px}
+.page-h em{font-style:italic;color:var(--rose-d)}
+.page-sub{font-size:14px;color:var(--sub);text-align:center;line-height:1.8;max-width:520px;margin:0 auto 48px}
+
+.drop-zone{border:1px solid var(--bdr);background:#fff;padding:60px 32px;text-align:center;cursor:pointer;transition:all .2s;position:relative;border-top:3px solid var(--rose)}
+.drop-zone:hover,.drop-zone.drag{border-color:var(--rose);background:var(--off)}
 .drop-zone input{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer}
-.dz-icon{font-size:36px;margin-bottom:12px;opacity:.5}
-.dz-h{font-family:'Cormorant Garamond',serif;font-size:20px;margin-bottom:8px}
-.dz-p{font-size:13px;color:var(--grey)}
-.dz-or{margin:16px 0;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--bdr)}
-.btn-choose{background:var(--char);color:var(--gold-l);border:none;padding:11px 28px;font-family:'Jost',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:2px}
-#previewWrap{display:none;margin-top:20px}
-.preview-lbl{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--grey);margin-bottom:8px}
-#previewImg{width:100%;max-height:600px;object-fit:contain;border-radius:3px;border:1px solid var(--bdr);background:#f5f5f5}
-.opt-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:20px}
-.opt-lbl{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--grey);margin-bottom:7px}
-.fra-select{width:100%;padding:10px 12px;border:1px solid var(--bdr);background:var(--warm);font-family:'Jost',sans-serif;font-size:13px;color:var(--char);border-radius:2px;outline:none;-webkit-appearance:none}
-.fra-select:focus{border-color:var(--gold)}
-#errorBox{display:none;background:#FFF0F0;border:1px solid #FFCCCC;padding:14px 18px;border-radius:3px;font-size:13px;color:#C0392B;margin-top:16px}
-#btnGenerate{display:block;width:100%;margin-top:20px;padding:15px;background:#ccc;color:#888;font-family:'Jost',sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;border:none;cursor:not-allowed;border-radius:2px;transition:background .2s}
-#btnGenerate.ready{background:var(--gold);color:var(--char);cursor:pointer}
-#btnGenerate.ready:hover{background:var(--gold-d);color:#fff}
+.dz-line{width:32px;height:1px;background:var(--bdr);margin:0 auto 20px}
+.dz-h{font-family:'Playfair Display',serif;font-size:20px;font-weight:400;margin-bottom:8px;color:var(--dark)}
+.dz-p{font-size:13px;color:var(--sub);margin-bottom:20px}
+.dz-or{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--bdr);margin-bottom:20px}
+.btn-choose{background:var(--dark);color:#F8F4F0;border:none;padding:12px 28px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;cursor:pointer;transition:background .2s}
+.btn-choose:hover{background:var(--rose-d)}
+
+#previewWrap{display:none;margin-top:2px;border:1px solid var(--bdr);border-top:none}
+.preview-lbl{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--sub);padding:10px 16px;background:var(--off);border-bottom:1px solid var(--bdr)}
+#previewImg{width:100%;max-height:600px;object-fit:contain;display:block;background:#F8F4F0}
+
+.opt-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:20px}
+.opt-lbl{display:block;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--sub);margin-bottom:8px;font-weight:500}
+.fra-select{width:100%;padding:11px 14px;border:1px solid var(--bdr);background:#fff;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);outline:none;-webkit-appearance:none;transition:border-color .2s}
+.fra-select:focus{border-color:var(--rose)}
+
+#errorBox{display:none;background:#FFF0F0;border-left:3px solid #FFAAAA;padding:12px 16px;font-size:13px;color:#C0392B;margin-top:16px}
+#btnGenerate{display:block;width:100%;margin-top:20px;padding:16px;background:var(--lgrey);color:#aaa;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;border:none;cursor:not-allowed;transition:all .2s}
+#btnGenerate.ready{background:var(--dark);color:#F8F4F0;cursor:pointer}
+#btnGenerate.ready:hover{background:var(--rose-d)}
 
 /* LOADING */
-#loadingScreen{display:none;text-align:center;padding:80px 20px}
-.spinner{width:40px;height:40px;border:3px solid var(--bdr);border-top-color:var(--gold);border-radius:50%;animation:spin .9s linear infinite;margin:0 auto}
-@keyframes spin{to{transform:rotate(360deg)}}
-.load-txt{font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:var(--grey);margin-top:16px}
-.load-sub{font-size:12px;color:var(--sage);margin-top:8px;letter-spacing:1px}
+#loadingScreen{display:none;text-align:center;padding:100px 24px}
+.load-line{width:48px;height:2px;background:var(--rose);margin:0 auto 32px;animation:grow 1.4s ease-in-out infinite}
+@keyframes grow{0%,100%{width:24px;opacity:.4}50%{width:64px;opacity:1}}
+.load-txt{font-family:'Playfair Display',serif;font-size:22px;font-style:italic;color:var(--dark);margin-bottom:10px}
+.load-sub{font-size:12px;color:var(--sub);letter-spacing:1px}
 
 /* OUTPUT SHEET */
-#outputScreen{display:none;max-width:1060px;margin:0 auto;padding:0 20px 80px}
-.sheet-hd{background:var(--char);padding:28px 36px;display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid var(--gold);flex-wrap:wrap;gap:16px}
-.sheet-sup{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
-.sheet-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;font-style:italic;color:var(--warm);line-height:1.2}
+#outputScreen{display:none;max-width:1080px;margin:0 auto;padding:0 24px 80px}
+
+.sheet-hd{background:var(--dark);padding:32px 40px;display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid var(--rose);flex-wrap:wrap;gap:20px}
+.sheet-eyebrow{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--rose);margin-bottom:10px}
+.sheet-title{font-family:'Playfair Display',serif;font-size:30px;font-weight:600;font-style:italic;color:#F8F4F0;line-height:1.2}
+.sheet-style{font-size:11px;color:#5A4A47;margin-top:6px;letter-spacing:.5px}
 .sheet-meta{text-align:right}
-.meta-row{font-size:11px;letter-spacing:1px;color:#aaa;margin-bottom:4px}
-.meta-row strong{color:var(--gold-l);font-weight:400}
-.color-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;justify-content:flex-end}
+.meta-item{font-size:11px;color:#5A4A47;margin-bottom:4px;letter-spacing:.3px}
+.meta-item strong{color:#C8A8AC;font-weight:400}
+.color-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;justify-content:flex-end}
 .swatch-wrap{display:flex;flex-direction:column;align-items:center;gap:5px}
-.swatch-circle{width:32px;height:32px;border-radius:50%;border:2px solid var(--bdr)}
-.swatch-name{font-size:9px;color:#aaa;text-align:center;max-width:48px}
-.sheet-body{background:var(--warm);border:1px solid var(--bdr);border-top:none;padding:36px}
-.sec-lbl{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold-d);font-weight:700;border-bottom:1px solid var(--gold-l);padding-bottom:7px;margin-bottom:14px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-bottom:32px}
-.key-box{background:var(--cream);border:1px solid var(--bdr);padding:18px;border-radius:2px}
-.kd-item{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;border-bottom:1px dotted var(--lgrey)}
+.swatch-circle{width:28px;height:28px;border-radius:50%;border:1px solid rgba(255,255,255,0.15)}
+.swatch-name{font-size:8px;color:#5A4A47;text-align:center;max-width:44px;letter-spacing:.3px}
+
+.sheet-body{background:#fff;border:1px solid var(--bdr);border-top:none;padding:40px}
+.sec-lbl{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--rose-d);font-weight:600;border-bottom:1px solid var(--rose-l);padding-bottom:8px;margin-bottom:16px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:36px}
+
+.key-box{background:var(--off);border:1px solid var(--bdr);padding:20px}
+.kd-item{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--lgrey)}
 .kd-item:last-child{border-bottom:none}
-.kd-lbl{color:var(--grey);font-size:11px}
+.kd-lbl{color:var(--sub);font-size:11px;letter-spacing:.3px}
 .kd-val{font-weight:500;font-size:13px;text-align:right;max-width:60%}
-.design-notes{background:#F0EDE6;border-left:3px solid var(--gold);padding:16px 18px;font-style:italic;font-size:15px;line-height:1.7;border-radius:0 2px 2px 0}
-.fra-table{width:100%;border-collapse:collapse;margin-bottom:32px}
-.fra-table th{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--grey);background:var(--cream);padding:8px 10px;text-align:left;border-bottom:1px solid var(--bdr)}
-.fra-table td{font-size:12px;padding:8px 10px;border-bottom:1px solid var(--lgrey);vertical-align:top;line-height:1.4}
-.fra-table tr:nth-child(even) td{background:#FAFAF7}
-.fra-table .total-row td{background:var(--char)!important;color:var(--gold-l);font-weight:700}
-.num-badge{width:24px;height:24px;background:var(--char);color:var(--gold-l);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700}
-.pct-badge{display:inline-block;background:var(--gold-l);color:var(--gold-d);font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px}
-.supply-item{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px dotted var(--lgrey);font-size:13px}
+.design-notes{background:var(--off);border-left:2px solid var(--rose);padding:20px 22px;font-style:italic;font-size:15px;line-height:1.8;color:var(--text)}
+
+.fra-table{width:100%;border-collapse:collapse;margin-bottom:36px}
+.fra-table th{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--sub);background:var(--off);padding:10px 12px;text-align:left;border-bottom:1px solid var(--bdr)}
+.fra-table td{font-size:12.5px;padding:10px 12px;border-bottom:1px solid var(--lgrey);vertical-align:top;line-height:1.4}
+.fra-table tr:nth-child(even) td{background:#FDFBFA}
+.fra-table .total-row td{background:var(--dark)!important;color:#C8A8AC;font-weight:600;font-size:12px}
+.num-badge{width:26px;height:26px;background:var(--rose-l);color:var(--rose-d);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700}
+.pct-badge{display:inline-block;background:var(--rose-l);color:var(--rose-d);font-size:10px;font-weight:600;padding:2px 8px}
+
+.supply-item{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--lgrey);font-size:13px}
 .supply-item:last-child{border-bottom:none}
-.supply-qty{background:var(--sage-l);color:var(--sage);font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px}
-.cost-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dotted var(--lgrey);font-size:13px}
-.cost-total{display:flex;justify-content:space-between;padding:10px 0 0;border-top:2px solid var(--char);font-weight:700;font-size:14px;margin-top:4px}
-.cost-pct{color:var(--grey);font-size:11px}
-.assembly-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:14px;margin-bottom:32px}
-.step-card{background:var(--cream);border:1px solid var(--bdr);border-radius:3px;padding:14px 12px}
-.step-num{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--gold-l);line-height:1;margin-bottom:6px}
-.step-title{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px}
-.step-desc{font-size:11px;color:var(--grey);line-height:1.5}
-.tips3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:22px}
-.tip-item{display:flex;gap:8px;align-items:flex-start;margin-bottom:9px;font-size:12px;line-height:1.5}
-.tip-dot{width:6px;height:6px;background:var(--gold);border-radius:50%;margin-top:5px;flex-shrink:0}
-.sage-dot{width:6px;height:6px;background:var(--sage);border-radius:50%;margin-top:5px;flex-shrink:0}
-.sub-item{display:flex;align-items:center;gap:8px;font-size:12px;padding:6px 0;border-bottom:1px dotted var(--lgrey)}
+.supply-qty{background:var(--off);color:var(--sub);font-size:10px;font-weight:600;padding:2px 10px;letter-spacing:.5px}
+.cost-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--lgrey);font-size:13px}
+.cost-total{display:flex;justify-content:space-between;padding:14px 0 0;border-top:2px solid var(--dark);font-weight:700;font-size:15px;margin-top:4px}
+.cost-pct{color:var(--sub);font-size:11px;margin-left:4px}
+
+.assembly-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:16px;margin-bottom:36px}
+.step-card{background:var(--off);border-top:2px solid var(--rose-l);padding:18px 16px}
+.step-num{font-family:'Playfair Display',serif;font-size:28px;font-weight:400;color:var(--rose-l);line-height:1;margin-bottom:8px}
+.step-title{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;color:var(--rose-d)}
+.step-desc{font-size:11.5px;color:var(--sub);line-height:1.6}
+
+.tips3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px}
+.tip-item{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px;font-size:12.5px;line-height:1.6}
+.tip-rule{width:8px;height:1px;background:var(--rose);margin-top:9px;flex-shrink:0}
+.sub-item{display:flex;align-items:center;gap:10px;font-size:12.5px;padding:7px 0;border-bottom:1px solid var(--lgrey)}
 .sub-item:last-child{border-bottom:none}
-.sub-arrow{color:var(--gold);font-size:14px;flex-shrink:0}
-.sub-to{font-style:italic;color:var(--sage)}
-.sheet-actions{display:flex;gap:12px;margin-top:28px;justify-content:center;flex-wrap:wrap}
-.btn-print{padding:12px 26px;background:var(--char);color:var(--gold-l);border:none;font-family:'Jost',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:2px}
-.btn-reset{padding:12px 26px;background:transparent;color:var(--char);border:1px solid var(--bdr);font-family:'Jost',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:2px}
-.btn-reset:hover{border-color:var(--gold);color:var(--gold-d)}
-.powered{text-align:center;font-size:11px;color:var(--grey);padding:20px;letter-spacing:1px}
-.powered a{color:var(--gold-d);text-decoration:none}
+.sub-arrow{color:var(--rose);font-size:12px;flex-shrink:0;letter-spacing:1px}
+.sub-to{font-style:italic;color:var(--sub)}
+
+.sheet-actions{display:flex;gap:12px;margin-top:36px;justify-content:center;flex-wrap:wrap}
+.btn-pdf{padding:13px 32px;background:var(--dark);color:#F8F4F0;border:none;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;cursor:pointer;transition:background .2s}
+.btn-pdf:hover{background:var(--rose-d)}
+.btn-again{padding:13px 32px;background:transparent;color:var(--text);border:1px solid var(--bdr);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s}
+.btn-again:hover{border-color:var(--rose);color:var(--rose-d)}
+
+/* FOOTER */
+.site-footer{text-align:center;padding:32px 24px;border-top:1px solid var(--lgrey);font-size:11px;color:var(--sub);letter-spacing:.5px;line-height:1.8}
+.site-footer a{color:var(--rose-d);text-decoration:none;border-bottom:1px solid var(--rose-l)}
+
 @media(max-width:700px){
   .opt-row,.grid2,.tips3{grid-template-columns:1fr}
-  .sheet-hd{flex-direction:column}
+  .sheet-hd{padding:24px}
   .sheet-meta{text-align:left}
   .color-row{justify-content:flex-start}
-  .fra-h1{font-size:26px}
-  .sheet-body{padding:20px}
-  .api-card{padding:24px}
+  .page-h{font-size:28px}
+  .sheet-body{padding:24px}
+  .hdr{padding:0 20px}
+  #uploadScreen{padding:40px 16px}
 }
 </style>
 </head>
 <body>
 
 <!-- HEADER -->
-<div class="fra-header">
-  <div class="fra-logo">Floral <em>Recipe AI</em></div>
-  <div class="fra-badge">by Nirav Chahwala</div>
+<div class="hdr">
+  <div style="display:flex;align-items:center;gap:16px">
+    <div class="hdr-logo">WedIQ</div>
+    <div style="width:1px;height:18px;background:#3A3330;display:inline-block"></div>
+    <div class="hdr-tool">Floral Magic Tool</div>
+  </div>
+  <div class="hdr-nav">
+    <a class="hdr-link" href="https://wedi.live" target="_blank">wedi.live</a>
+    <a class="hdr-link" href="https://niravchahwala.com" target="_blank">by NC</a>
+  </div>
 </div>
 
-<!-- KEY STATUS BAR (shown after key is set) -->
-<div id="keyBar" style="display:none;background:#F0F5EE;border-bottom:1px solid #C5CFC0;padding:8px 32px;font-size:11px;color:#4A6B40;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
-  <span>&#128274; API key active &nbsp;—&nbsp; stored only in your browser session</span>
+<!-- KEY BAR -->
+<div id="keyBar" style="display:none;background:#F0F5EE;border-bottom:1px solid #C5D5C0;padding:9px 48px;font-size:11px;color:#4A6B40;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+  <span>API key active — stored only in this browser session</span>
   <button id="btnChangeKey" onclick="changeKey()">Change key</button>
 </div>
 
-<!-- STEP 1: API KEY SCREEN -->
+<!-- API SCREEN -->
 <div id="apiScreen">
+  <div class="api-eyebrow">WedIQ Floral Magic Tool</div>
+  <div class="api-h">Your <em>Floral Recipe</em><br>Starts Here</div>
+  <p class="api-tagline">Enter your Anthropic API key to begin. Upload any decor photo and receive a complete floral recipe and materials sheet instantly.</p>
   <div class="api-card">
-    <div class="api-icon">&#128274;</div>
-    <div class="api-h">Enter Your API Key</div>
-    <p class="api-sub">Your key is used only in your browser to call the AI. It is never saved to any file, server, or database.</p>
-
-    <div class="api-safety">
-      <strong>&#10003; Completely Safe:</strong> The key lives only in your browser's temporary memory. When you close this tab, it's gone. Nobody else can see it — not even the website owner.
-    </div>
-
+    <div class="api-safety">Your key is stored only in your browser session — never saved to any file, server, or database. It disappears when you close this tab.</div>
     <label class="api-lbl" for="apiKeyInput">Anthropic API Key</label>
     <div class="api-input-wrap">
       <input type="password" id="apiKeyInput" placeholder="sk-ant-api03-..." autocomplete="off" spellcheck="false">
-      <button id="toggleKey" onclick="toggleKeyVisibility()" title="Show/hide key">&#128065;</button>
+      <button id="toggleKey" onclick="toggleKeyVisibility()">Show</button>
     </div>
-    <p class="api-hint">
-      Get your key from <a href="https://platform.anthropic.com/settings/keys" target="_blank">platform.anthropic.com/settings/keys</a><br>
-      It starts with <strong>sk-ant-</strong>
-    </p>
-
-    <button id="btnSaveKey" onclick="saveKey()">Continue to Floral Recipe AI &#8594;</button>
+    <p class="api-hint">Get your key at <a href="https://platform.anthropic.com/settings/keys" target="_blank">platform.anthropic.com</a> — it begins with sk-ant-</p>
+    <button id="btnSaveKey" onclick="saveKey()">Continue to Floral Magic Tool</button>
     <div id="apiError"></div>
   </div>
+  <div class="api-footer">Powered by WedIQ &nbsp;·&nbsp; Created by Nirav Chahwala &nbsp;·&nbsp; Surat, India</div>
 </div>
 
-<!-- STEP 2: UPLOAD SCREEN -->
+<!-- UPLOAD SCREEN -->
 <div id="uploadScreen">
-  <div class="fra-heading">
-    <div class="fra-h1">Upload a Decor Photo.<br><em>Get a Full Technical Sheet.</em></div>
-    <p class="fra-sub">Upload any wedding or event decor photo. AI will identify every flower, estimate quantities, and produce a complete production-ready document for your florist and team.</p>
-  </div>
+  <div class="page-eyebrow">WedIQ Floral Magic Tool</div>
+  <div class="page-h"><em>Floral Recipe</em> Generator</div>
+  <p class="page-sub">Upload any wedding or event decor photo. AI identifies every flower, estimates quantities, and produces a complete production-ready sheet for your florist and team.</p>
 
   <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
     <input type="file" id="fileInput" accept="image/*" onclick="event.stopPropagation()">
-    <div class="dz-icon">&#127800;</div>
+    <div class="dz-line"></div>
     <div class="dz-h">Drop your decor photo here</div>
-    <p class="dz-p">JPG, PNG, WEBP — any decor style, any scale</p>
-    <div class="dz-or">— or —</div>
+    <p class="dz-p">JPG, PNG, WEBP — any wedding or event decor</p>
+    <div class="dz-or">or</div>
     <button class="btn-choose" onclick="event.stopPropagation();document.getElementById('fileInput').click()">Choose Photo</button>
   </div>
 
@@ -208,19 +231,20 @@ body{font-family:'Jost',Georgia,serif;background:var(--cream);color:var(--char);
       <select id="eventType" class="fra-select">
         <option>Wedding Reception</option>
         <option>Wedding Ceremony</option>
-        <option>Engagement</option>
-        <option>Pre-Wedding</option>
+        <option>Engagement Ceremony</option>
+        <option>Mehendi / Haldi</option>
+        <option>Sangeet Night</option>
+        <option>Pre-Wedding Shoot</option>
         <option>Corporate Event</option>
-        <option>Birthday / Celebration</option>
+        <option>Birthday Celebration</option>
       </select>
     </div>
     <div>
       <label class="opt-lbl">Season</label>
       <select id="season" class="fra-select">
-        <option>Spring / Summer</option>
-        <option>Late Summer / Early Fall</option>
-        <option>Fall / Winter</option>
-        <option>Winter</option>
+        <option>Winter (Oct – Feb)</option>
+        <option>Spring / Summer (Mar – Jun)</option>
+        <option>Monsoon (Jul – Sep)</option>
         <option>Year-Round</option>
       </select>
     </div>
@@ -237,233 +261,185 @@ body{font-family:'Jost',Georgia,serif;background:var(--cream);color:var(--char);
   </div>
 
   <div id="errorBox"></div>
-  <button id="btnGenerate" disabled onclick="generateSheet()">&#10022; Analyse Decor &amp; Generate Technical Sheet</button>
+  <button id="btnGenerate" disabled onclick="generateSheet()">Analyse Decor &amp; Generate Floral Recipe Sheet</button>
 </div>
 
 <!-- LOADING -->
 <div id="loadingScreen">
-  <div class="spinner"></div>
-  <div class="load-txt">Analysing your decor...</div>
-  <div class="load-sub">Identifying flowers &mdash; Estimating quantities &mdash; Building your sheet</div>
+  <div class="load-line"></div>
+  <div class="load-txt">Creating your Floral Recipe</div>
+  <div class="load-sub">Identifying flowers &nbsp;&middot;&nbsp; Estimating quantities &nbsp;&middot;&nbsp; Building your sheet</div>
 </div>
 
 <!-- OUTPUT -->
 <div id="outputScreen"></div>
 
-<div class="powered">Powered by <a href="https://niravchahwala.com" target="_blank">Nirav Chahwala</a> &times; WedIQ AI</div>
+<!-- FOOTER -->
+<div class="site-footer">
+  WedIQ Floral Magic Tool &nbsp;·&nbsp; <a href="https://niravchahwala.com" target="_blank">Nirav Chahwala</a> &nbsp;·&nbsp; Intelligent Wedding Ecosystem &nbsp;·&nbsp; Surat, India
+</div>
 
 <script>
-// Key lives ONLY in memory — never written to disk or localStorage
-var SESSION_KEY = '';
-var base64Data  = '';
-var mimeType    = 'image/jpeg';
-var lastSheet   = null;
-var lastEvent   = '';
-var lastSeason  = '';
+var SESSION_KEY='';var base64Data='';var mimeType='image/jpeg';var lastSheet=null;var lastEvent='';var lastSeason='';
 
-// ── API KEY SCREEN ──────────────────────────────────────────
 function toggleKeyVisibility(){
-  var inp = document.getElementById('apiKeyInput');
-  var btn = document.getElementById('toggleKey');
-  if(inp.type === 'password'){ inp.type = 'text'; btn.textContent = '\uD83D\uDEAB'; }
-  else { inp.type = 'password'; btn.textContent = '\uD83D\uDC41'; }
+  var inp=document.getElementById('apiKeyInput');
+  var btn=document.getElementById('toggleKey');
+  if(inp.type==='password'){inp.type='text';btn.textContent='Hide';}
+  else{inp.type='password';btn.textContent='Show';}
 }
 
 function saveKey(){
-  var key = document.getElementById('apiKeyInput').value.trim();
-  var err = document.getElementById('apiError');
-  if(!key){ showApiError('Please paste your API key.'); return; }
-  if(!key.startsWith('sk-ant-')){ showApiError('This does not look like an Anthropic key. It should start with sk-ant-'); return; }
-  SESSION_KEY = key;
-  document.getElementById('apiKeyInput').value = '';
+  var key=document.getElementById('apiKeyInput').value.trim();
+  var err=document.getElementById('apiError');
+  if(!key){showApiError('Please paste your Anthropic API key.');return;}
+  if(!key.startsWith('sk-ant-')){showApiError('This does not look like a valid key. It should start with sk-ant-');return;}
+  SESSION_KEY=key;
+  document.getElementById('apiKeyInput').value='';
   hide('apiScreen');
-  var kb = document.getElementById('keyBar');
-  kb.style.display = 'flex';
+  document.getElementById('keyBar').style.display='flex';
   show('uploadScreen');
-  err.style.display = 'none';
+  err.style.display='none';
 }
 
-function showApiError(msg){
-  var err = document.getElementById('apiError');
-  err.textContent = msg;
-  err.style.display = 'block';
-}
+function showApiError(msg){var err=document.getElementById('apiError');err.textContent=msg;err.style.display='block';}
 
 function changeKey(){
-  SESSION_KEY = '';
-  base64Data  = '';
-  lastSheet   = null;
-  document.getElementById('fileInput').value = '';
-  document.getElementById('previewImg').src  = '';
-  document.getElementById('previewWrap').style.display = 'none';
-  document.getElementById('btnGenerate').disabled = true;
+  SESSION_KEY='';base64Data='';lastSheet=null;
+  document.getElementById('fileInput').value='';
+  document.getElementById('previewImg').src='';
+  document.getElementById('previewWrap').style.display='none';
+  document.getElementById('btnGenerate').disabled=true;
   document.getElementById('btnGenerate').classList.remove('ready');
-  document.getElementById('outputScreen').innerHTML = '';
-  document.getElementById('keyBar').style.display = 'none';
-  document.getElementById('apiKeyInput').value = '';
-  document.getElementById('apiError').style.display = 'none';
-  hide('uploadScreen'); hide('outputScreen'); hide('loadingScreen');
-  show('apiScreen');
+  document.getElementById('outputScreen').innerHTML='';
+  document.getElementById('keyBar').style.display='none';
+  document.getElementById('apiKeyInput').value='';
+  document.getElementById('apiError').style.display='none';
+  hide('uploadScreen');hide('outputScreen');hide('loadingScreen');show('apiScreen');
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-// Enter key submits API form
-document.getElementById('apiKeyInput').addEventListener('keydown', function(e){
-  if(e.key === 'Enter') saveKey();
-});
+document.getElementById('apiKeyInput').addEventListener('keydown',function(e){if(e.key==='Enter')saveKey();});
 
-// ── FILE HANDLING ───────────────────────────────────────────
-var fileInput = document.getElementById('fileInput');
-var dropZone  = document.getElementById('dropZone');
-var btnGen    = document.getElementById('btnGenerate');
+var fileInput=document.getElementById('fileInput');
+var dropZone=document.getElementById('dropZone');
+var btnGen=document.getElementById('btnGenerate');
 
-fileInput.addEventListener('change', function(){ if(fileInput.files[0]) loadFile(fileInput.files[0]); });
-dropZone.addEventListener('dragover', function(e){ e.preventDefault(); dropZone.classList.add('drag'); });
-dropZone.addEventListener('dragleave', function(){ dropZone.classList.remove('drag'); });
-dropZone.addEventListener('drop', function(e){
-  e.preventDefault(); dropZone.classList.remove('drag');
-  if(e.dataTransfer.files[0]) loadFile(e.dataTransfer.files[0]);
-});
+fileInput.addEventListener('change',function(){if(fileInput.files[0])loadFile(fileInput.files[0]);});
+dropZone.addEventListener('dragover',function(e){e.preventDefault();dropZone.classList.add('drag');});
+dropZone.addEventListener('dragleave',function(){dropZone.classList.remove('drag');});
+dropZone.addEventListener('drop',function(e){e.preventDefault();dropZone.classList.remove('drag');if(e.dataTransfer.files[0])loadFile(e.dataTransfer.files[0]);});
 
 function loadFile(file){
-  if(!file.type.startsWith('image/')) return;
-  mimeType = file.type || 'image/jpeg';
-  var reader = new FileReader();
-  reader.onload = function(e){
-    var result = e.target.result;
-    base64Data = result.split(',')[1];
-    document.getElementById('previewImg').src = result;
-    document.getElementById('previewWrap').style.display = 'block';
-    btnGen.disabled = false;
-    btnGen.classList.add('ready');
-    document.getElementById('errorBox').style.display = 'none';
+  if(!file.type.startsWith('image/'))return;
+  mimeType=file.type||'image/jpeg';
+  var reader=new FileReader();
+  reader.onload=function(e){
+    var result=e.target.result;
+    base64Data=result.split(',')[1];
+    document.getElementById('previewImg').src=result;
+    document.getElementById('previewWrap').style.display='block';
+    btnGen.disabled=false;btnGen.classList.add('ready');
+    document.getElementById('errorBox').style.display='none';
   };
   reader.readAsDataURL(file);
 }
 
-// ── GENERATE ────────────────────────────────────────────────
 async function generateSheet(){
-  if(!base64Data || !SESSION_KEY) return;
-  var eventType = document.getElementById('eventType').value;
-  var season    = document.getElementById('season').value;
-  var currency  = document.getElementById('currency').value;
-  lastEvent = eventType; lastSeason = season;
+  if(!base64Data||!SESSION_KEY)return;
+  var eventType=document.getElementById('eventType').value;
+  var season=document.getElementById('season').value;
+  var currency=document.getElementById('currency').value;
+  lastEvent=eventType;lastSeason=season;
+  hide('uploadScreen');show('loadingScreen');hide('outputScreen');
+  document.getElementById('errorBox').style.display='none';
 
-  hide('uploadScreen'); show('loadingScreen'); hide('outputScreen');
-  document.getElementById('errorBox').style.display = 'none';
+  var prompt='You are a world-class floral designer and wedding production expert specialising in Indian weddings. Analyse this decor photo carefully and return ONLY a valid JSON object. No markdown, no code fences, no extra text. Use exactly this structure:\n\n{"designTitle":"Poetic name","designStyle":"e.g. Royal Indian Garden","colorPalette":[{"name":"Color","hex":"#HEX"},{"name":"Color","hex":"#HEX"},{"name":"Color","hex":"#HEX"}],"keyDetails":{"overallHeight":"e.g. 100-120 cm","diameter":"e.g. 80-90 cm","vasetype":"e.g. Tall Glass Column","mechanics":"e.g. Floral foam, chicken wire","placement":"e.g. Guest tables / Mandap"},"designNotes":"2-3 sentences describing the visual feel and atmosphere.","flowerRecipe":[{"name":"Rose","variety":"Red Garden Rose","qty":15,"pct":"20%","notes":"Focal bloom"}],"totalStems":75,"mechanicsSupplies":[{"item":"Supply item","qty":"2 pcs"}],"costEstimate":{"flowersGreenery":{"range":"Rs.8000-12000","pct":"65%"},"mechanicsSupplies":{"range":"Rs.2500-4000","pct":"20%"},"laborSetup":{"range":"Rs.2000-3000","pct":"15%"},"total":"Rs.12500-19000"},"assemblySteps":[{"title":"Step Title","description":"Instruction."}],"tips":["Tip 1","Tip 2","Tip 3"],"substitutions":[{"from":"Original","to":"Substitute"}],"careHandling":["Care 1","Care 2","Care 3"]}\n\nIdentify ALL visible flowers, foliage, and structural elements. Be specific and professional. Event: '+eventType+'. Season: '+season+'. Currency: '+currency+'.';
 
-  var prompt = 'You are a world-class floral designer and wedding production expert. Analyse this decor photo carefully and return ONLY a valid JSON object. No markdown, no code fences, no extra text. Use exactly this structure:\n\n{"designTitle":"Poetic name","designStyle":"e.g. Romantic Timeless","colorPalette":[{"name":"Color","hex":"#HEX"},{"name":"Color","hex":"#HEX"},{"name":"Color","hex":"#HEX"}],"keyDetails":{"overallHeight":"e.g. 100-120 cm","diameter":"e.g. 80-90 cm","vasetype":"e.g. Tall Glass Column","mechanics":"e.g. Floral foam, chicken wire","placement":"e.g. Guest tables"},"designNotes":"2-3 sentences describing the visual feel.","flowerRecipe":[{"name":"Rose","variety":"White Garden Rose","qty":15,"pct":"20%","notes":"Focal bloom"}],"totalStems":75,"mechanicsSupplies":[{"item":"Tall Glass Vase","qty":"2 pcs"},{"item":"Floral Foam","qty":"2 blocks"},{"item":"Chicken Wire","qty":"1 roll"},{"item":"Cable Ties","qty":"10 pcs"},{"item":"Water Tubes","qty":"10 pcs"},{"item":"Floral Tape","qty":"1 roll"},{"item":"Scissors","qty":"1"}],"costEstimate":{"flowersGreenery":{"range":"Rs.8000-12000","pct":"65%"},"mechanicsSupplies":{"range":"Rs.2500-4000","pct":"20%"},"laborSetup":{"range":"Rs.2000-3000","pct":"15%"},"total":"Rs.12500-19000"},"assemblySteps":[{"title":"Prepare Base","description":"Soak foam and place in vessel."},{"title":"Add Greenery","description":"Insert base greens to establish shape."},{"title":"Place Focal Blooms","description":"Position main flowers at varied heights."},{"title":"Add Fill Flowers","description":"Fill gaps with secondary blooms."},{"title":"Add Height","description":"Insert tall stems for movement."},{"title":"Final Balance","description":"Check from all sides, mist, adjust."}],"tips":["Order flowers 2-3 days in advance","Condition all flowers before designing","Build in spiral technique for natural flow"],"substitutions":[{"from":"Garden Rose","to":"Spray Rose"},{"from":"Hydrangea","to":"Lisianthus"},{"from":"Orchid","to":"Anthurium"}],"careHandling":["Keep away from direct sunlight","Replenish water in vase daily","Mist delicate flowers if needed"]}\n\nIdentify ALL visible flowers, foliage, and structural elements. Be specific and professional. Event: ' + eventType + '. Season: ' + season + '. Currency: ' + currency + '.';
-
-  try {
-    var response = await fetch('https://floral-proxy.niravchahwala.workers.dev', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': SESSION_KEY,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
-        model: 'claude-opus-4-5',
-        max_tokens: 4000,
-        messages: [{
-          role: 'user',
-          content: [
-            { type: 'image', source: { type: 'base64', media_type: mimeType, data: base64Data } },
-            { type: 'text', text: prompt }
-          ]
-        }]
-      })
+  try{
+    var response=await fetch('https://floral-proxy.niravchahwala.workers.dev',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':SESSION_KEY,'anthropic-version':'2023-06-01'},
+      body:JSON.stringify({model:'claude-opus-4-5',max_tokens:4000,messages:[{role:'user',content:[{type:'image',source:{type:'base64',media_type:mimeType,data:base64Data}},{type:'text',text:prompt}]}]})
     });
-
-    var data = await response.json();
-    if(data.error) throw new Error(data.error.message);
-
-    var raw   = (data.content||[]).map(function(b){ return b.text||''; }).join('');
-    var clean = raw.replace(/```json|```/g,'').trim();
-    var match = clean.match(/\{[\s\S]*\}/);
-    if(!match) throw new Error('Could not parse response. Please try again.');
-    var sheet = JSON.parse(match[0]);
-
-    lastSheet = sheet;
-    renderSheet(sheet, eventType, season);
-    hide('loadingScreen'); show('outputScreen');
+    var data=await response.json();
+    if(data.error)throw new Error(data.error.message);
+    var raw=(data.content||[]).map(function(b){return b.text||'';}).join('');
+    var clean=raw.replace(/```json|```/g,'').trim();
+    var match=clean.match(/\{[\s\S]*\}/);
+    if(!match)throw new Error('Could not parse response. Please try again.');
+    var sheet=JSON.parse(match[0]);
+    lastSheet=sheet;
+    renderSheet(sheet,eventType,season);
+    hide('loadingScreen');show('outputScreen');
     document.getElementById('outputScreen').scrollIntoView({behavior:'smooth'});
-
-  } catch(err){
-    hide('loadingScreen'); show('uploadScreen');
-    var eb = document.getElementById('errorBox');
-    eb.textContent = 'Analysis failed: ' + err.message;
-    eb.style.display = 'block';
+  }catch(err){
+    hide('loadingScreen');show('uploadScreen');
+    var eb=document.getElementById('errorBox');
+    eb.textContent='Analysis failed: '+err.message;
+    eb.style.display='block';
   }
 }
 
-// ── PDF SAVE ─────────────────────────────────────────────────
 function savePDF(){
-  if(!lastSheet) return;
-  var d  = lastSheet;
-  var ce = d.costEstimate || {};
-  var kd = d.keyDetails   || {};
+  if(!lastSheet)return;
+  var d=lastSheet;var ce=d.costEstimate||{};var kd=d.keyDetails||{};
+  var flowerRows=(d.flowerRecipe||[]).map(function(f,i){return '<tr><td style="padding:7px 10px;border-bottom:1px solid #E8E0DC;text-align:center;font-size:10px;font-weight:700;color:#8B4A50;">'+(i+1)+'</td><td style="padding:7px 10px;border-bottom:1px solid #E8E0DC;font-weight:600;font-size:12px;">'+f.name+'</td><td style="padding:7px 10px;border-bottom:1px solid #E8E0DC;color:#7A6B68;font-size:11px;">'+f.variety+'</td><td style="padding:7px 10px;border-bottom:1px solid #E8E0DC;font-size:12px;">'+f.qty+'</td><td style="padding:7px 10px;border-bottom:1px solid #E8E0DC;"><span style="background:#F0D5D8;color:#8B4A50;padding:2px 7px;font-size:10px;font-weight:600;">'+f.pct+'</span></td><td style="padding:7px 10px;border-bottom:1px solid #E8E0DC;color:#7A6B68;font-style:italic;font-size:11px;">'+f.notes+'</td></tr>';}).join('');
+  var supplies=(d.mechanicsSupplies||[]).map(function(s){return '<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F2ECE8;font-size:12px;"><span>'+s.item+'</span><span style="background:#F2ECE8;color:#7A6B68;padding:2px 10px;font-size:10px;font-weight:600;letter-spacing:.5px;">'+s.qty+'</span></div>';}).join('');
+  var steps=(d.assemblySteps||[]).map(function(s,i){return '<div style="background:#F8F4F0;border-top:2px solid #F0D5D8;padding:12px;"><div style="font-size:20px;font-weight:400;color:#DDD0CC;line-height:1;margin-bottom:5px;">'+(i<9?'0'+(i+1):i+1)+'</div><div style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px;color:#8B4A50;">'+s.title+'</div><div style="font-size:10px;color:#7A6B68;line-height:1.5;">'+s.description+'</div></div>';}).join('');
+  var tips=(d.tips||[]).map(function(t){return '<div style="display:flex;gap:8px;margin-bottom:7px;font-size:11px;line-height:1.5;"><span style="width:8px;height:1px;background:#C47E84;margin-top:8px;flex-shrink:0;display:block;"></span><span>'+t+'</span></div>';}).join('');
+  var care=(d.careHandling||[]).map(function(c){return '<div style="display:flex;gap:8px;margin-bottom:7px;font-size:11px;line-height:1.5;"><span style="width:8px;height:1px;background:#7A6B68;margin-top:8px;flex-shrink:0;display:block;"></span><span>'+c+'</span></div>';}).join('');
+  var subs=(d.substitutions||[]).map(function(s){return '<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #F2ECE8;font-size:11px;"><span style="flex:1">'+s.from+'</span><span style="color:#C47E84;font-size:11px;">&#8594;</span><span style="flex:1;font-style:italic;color:#7A6B68;">'+s.to+'</span></div>';}).join('');
+  var swatches=(d.colorPalette||[]).map(function(c){return '<div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:24px;height:24px;border-radius:50%;background:'+c.hex+';border:1px solid rgba(255,255,255,0.2);"></div><div style="font-size:7px;color:#7A5A5D;text-align:center;max-width:40px;">'+c.name+'</div></div>';}).join('');
 
-  var flowerRows = (d.flowerRecipe||[]).map(function(f,i){
-    return '<tr><td style="padding:6px 8px;border-bottom:1px solid #E8E4DE;text-align:center;font-weight:700;">'+(i+1)+'</td><td style="padding:6px 8px;border-bottom:1px solid #E8E4DE;font-weight:600;">'+f.name+'</td><td style="padding:6px 8px;border-bottom:1px solid #E8E4DE;color:#6B6B6B;font-size:11px;">'+f.variety+'</td><td style="padding:6px 8px;border-bottom:1px solid #E8E4DE;text-align:center;">'+f.qty+'</td><td style="padding:6px 8px;border-bottom:1px solid #E8E4DE;text-align:center;"><span style="background:#E8D9B5;color:#8B7340;padding:2px 6px;border-radius:8px;font-size:10px;font-weight:700;">'+f.pct+'</span></td><td style="padding:6px 8px;border-bottom:1px solid #E8E4DE;color:#6B6B6B;font-style:italic;font-size:11px;">'+f.notes+'</td></tr>';
-  }).join('');
-  var supplies = (d.mechanicsSupplies||[]).map(function(s){ return '<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dotted #E8E4DE;font-size:12px;"><span>'+s.item+'</span><span style="background:#C5CFC0;color:#7A8C6E;padding:2px 8px;border-radius:8px;font-size:10px;font-weight:700;">'+s.qty+'</span></div>'; }).join('');
-  var steps    = (d.assemblySteps||[]).map(function(s,i){ return '<div style="background:#F9F5EF;border:1px solid #DDD6C8;border-radius:3px;padding:12px;"><div style="font-size:24px;font-weight:300;color:#E8D9B5;line-height:1;margin-bottom:4px;">'+(i<9?'0'+(i+1):i+1)+'</div><div style="font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">'+s.title+'</div><div style="font-size:10px;color:#6B6B6B;line-height:1.4;">'+s.description+'</div></div>'; }).join('');
-  var tips     = (d.tips||[]).map(function(t){ return '<div style="display:flex;gap:6px;margin-bottom:6px;font-size:11px;line-height:1.4;"><div style="width:5px;height:5px;background:#C4A96A;border-radius:50%;margin-top:4px;flex-shrink:0;"></div><span>'+t+'</span></div>'; }).join('');
-  var care     = (d.careHandling||[]).map(function(c){ return '<div style="display:flex;gap:6px;margin-bottom:6px;font-size:11px;line-height:1.4;"><div style="width:5px;height:5px;background:#7A8C6E;border-radius:50%;margin-top:4px;flex-shrink:0;"></div><span>'+c+'</span></div>'; }).join('');
-  var subs     = (d.substitutions||[]).map(function(s){ return '<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px dotted #E8E4DE;font-size:11px;"><span style="flex:1">'+s.from+'</span><span style="color:#C4A96A;">&#8594;</span><span style="flex:1;font-style:italic;color:#7A8C6E;">'+s.to+'</span></div>'; }).join('');
-  var swatches = (d.colorPalette||[]).map(function(c){ return '<div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:28px;height:28px;border-radius:50%;background:'+c.hex+';border:2px solid #DDD6C8;"></div><div style="font-size:8px;color:#aaa;text-align:center;max-width:44px;">'+c.name+'</div></div>'; }).join('');
+  var html='<!DOCTYPE html><html><head><meta charset="UTF-8"><title>WedIQ Floral Magic — '+d.designTitle+'</title><style>@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap");*{margin:0;padding:0;box-sizing:border-box}body{font-family:"DM Sans",Georgia,sans-serif;background:#fff;color:#1C1917}.ag{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:20px}.t3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}</style></head><body>';
+  html+='<div style="background:#1C1917;padding:22px 32px;display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #C47E84;flex-wrap:wrap;gap:12px;">';
+  html+='<div><div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#C47E84;margin-bottom:8px;">WedIQ Floral Magic Tool &nbsp;&middot;&nbsp; Technical Recipe Sheet</div><div style="font-family:Playfair Display,serif;font-size:24px;font-weight:600;font-style:italic;color:#F8F4F0;line-height:1.2;">'+d.designTitle+'</div><div style="font-size:10px;color:#5A4A47;margin-top:5px;letter-spacing:.5px;">'+d.designStyle+'</div></div>';
+  html+='<div style="text-align:right;"><div style="font-size:10px;color:#5A4A47;margin-bottom:3px;">Event <strong style="color:#C8A8AC;font-weight:400;">'+lastEvent+'</strong></div><div style="font-size:10px;color:#5A4A47;margin-bottom:8px;">Season <strong style="color:#C8A8AC;font-weight:400;">'+lastSeason+'</strong></div><div style="display:flex;gap:8px;justify-content:flex-end;">'+swatches+'</div></div></div>';
+  html+='<div style="padding:24px 32px;">';
+  html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;">';
+  html+='<div><div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#8B4A50;font-weight:600;border-bottom:1px solid #F0D5D8;padding-bottom:7px;margin-bottom:12px;">Key Details</div><div style="background:#F8F4F0;border:1px solid #DDD0CC;padding:16px;">';
+  html+='<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #E8E0DC;font-size:11px;"><span style="color:#7A6B68;">Overall Height</span><span style="font-weight:500;">'+(kd.overallHeight||'--')+'</span></div>';
+  html+='<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #E8E0DC;font-size:11px;"><span style="color:#7A6B68;">Diameter</span><span style="font-weight:500;">'+(kd.diameter||'--')+'</span></div>';
+  html+='<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #E8E0DC;font-size:11px;"><span style="color:#7A6B68;">Vase / Structure</span><span style="font-weight:500;">'+(kd.vasetype||'--')+'</span></div>';
+  html+='<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #E8E0DC;font-size:11px;"><span style="color:#7A6B68;">Mechanics</span><span style="font-weight:500;">'+(kd.mechanics||'--')+'</span></div>';
+  html+='<div style="display:flex;justify-content:space-between;padding:6px 0;font-size:11px;"><span style="color:#7A6B68;">Placement</span><span style="font-weight:500;">'+(kd.placement||'--')+'</span></div></div></div>';
+  html+='<div><div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#8B4A50;font-weight:600;border-bottom:1px solid #F0D5D8;padding-bottom:7px;margin-bottom:12px;">Design Notes</div><div style="background:#F8F4F0;border-left:2px solid #C47E84;padding:16px 18px;font-style:italic;font-size:13px;line-height:1.8;">'+(d.designNotes||'--')+'</div></div></div>';
+  html+='<div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#8B4A50;font-weight:600;border-bottom:1px solid #F0D5D8;padding-bottom:7px;margin-bottom:12px;">Flower Recipe</div>';
+  html+='<table style="width:100%;border-collapse:collapse;margin-bottom:20px;"><thead><tr style="background:#F8F4F0;"><th style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#7A6B68;padding:8px 10px;text-align:left;border-bottom:1px solid #DDD0CC;">#</th><th style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#7A6B68;padding:8px 10px;text-align:left;border-bottom:1px solid #DDD0CC;">Flower / Greenery</th><th style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#7A6B68;padding:8px 10px;text-align:left;border-bottom:1px solid #DDD0CC;">Variety</th><th style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#7A6B68;padding:8px 10px;text-align:left;border-bottom:1px solid #DDD0CC;">Qty</th><th style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#7A6B68;padding:8px 10px;text-align:left;border-bottom:1px solid #DDD0CC;">%</th><th style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#7A6B68;padding:8px 10px;text-align:left;border-bottom:1px solid #DDD0CC;">Notes</th></tr></thead><tbody>'+flowerRows+'<tr><td colspan="3" style="padding:7px 10px;background:#1C1917;color:#C8A8AC;font-weight:600;font-size:11px;">Total Stems</td><td style="padding:7px 10px;background:#1C1917;color:#C8A8AC;font-weight:600;">'+(d.totalStems||'--')+'</td><td style="padding:7px 10px;background:#1C1917;color:#C8A8AC;font-weight:600;">100%</td><td style="padding:7px 10px;background:#1C1917;"></td></tr></tbody></table>';
+  html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">';
+  html+='<div><div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#8B4A50;font-weight:600;border-bottom:1px solid #F0D5D8;padding-bottom:7px;margin-bottom:12px;">Mechanics &amp; Supplies</div>'+supplies+'</div>';
+  html+='<div><div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#8B4A50;font-weight:600;border-bottom:1px solid #F0D5D8;padding-bottom:7px;margin-bottom:12px;">Cost Estimate</div>';
+  html+='<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #E8E0DC;font-size:12px;"><span>Flowers &amp; Greenery</span><span>'+(ce.flowersGreenery&&ce.flowersGreenery.range||'--')+' <span style="color:#7A6B68;font-size:10px;">'+(ce.flowersGreenery&&ce.flowersGreenery.pct||'')+'</span></span></div>';
+  html+='<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #E8E0DC;font-size:12px;"><span>Mechanics &amp; Supplies</span><span>'+(ce.mechanicsSupplies&&ce.mechanicsSupplies.range||'--')+'</span></div>';
+  html+='<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #E8E0DC;font-size:12px;"><span>Labor &amp; Setup</span><span>'+(ce.laborSetup&&ce.laborSetup.range||'--')+'</span></div>';
+  html+='<div style="display:flex;justify-content:space-between;padding:12px 0 0;border-top:2px solid #1C1917;font-weight:700;font-size:13px;margin-top:4px;"><span>Total (Est.)</span><span>'+(ce.total||'--')+'</span></div></div></div>';
+  html+='<div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#8B4A50;font-weight:600;border-bottom:1px solid #F0D5D8;padding-bottom:7px;margin-bottom:12px;">Assembly Guide</div>';
+  html+='<div class="ag">'+steps+'</div>';
+  html+='<div class="t3"><div><div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#8B4A50;font-weight:600;border-bottom:1px solid #F0D5D8;padding-bottom:7px;margin-bottom:10px;">Production Tips</div>'+tips+'</div>';
+  html+='<div><div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#8B4A50;font-weight:600;border-bottom:1px solid #F0D5D8;padding-bottom:7px;margin-bottom:10px;">Substitutions</div>'+subs+'</div>';
+  html+='<div><div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#8B4A50;font-weight:600;border-bottom:1px solid #F0D5D8;padding-bottom:7px;margin-bottom:10px;">Care &amp; Handling</div>'+care+'</div></div>';
+  html+='<div style="text-align:center;margin-top:20px;padding-top:14px;border-top:1px solid #E8E0DC;font-size:10px;color:#7A6B68;letter-spacing:.5px;">WedIQ Floral Magic Tool &nbsp;&middot;&nbsp; niravchahwala.com &nbsp;&middot;&nbsp; Intelligent Wedding Ecosystem</div>';
+  html+='</div></body></html>';
 
-  var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Floral Recipe - '+d.designTitle+'</title><style>@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap");*{margin:0;padding:0;box-sizing:border-box}body{font-family:"Jost",Georgia,serif;background:#fff;color:#2C2C2C;font-size:12px}.ag{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:24px}.t3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}</style></head><body>';
-  html += '<div style="background:#2C2C2C;padding:24px 32px;display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #C4A96A;flex-wrap:wrap;gap:12px;">';
-  html += '<div><div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#C4A96A;margin-bottom:4px;">Floral Recipe &amp; Materials Technical Sheet</div><div style="font-family:Cormorant Garamond,serif;font-size:26px;font-weight:300;font-style:italic;color:#FDFAF6;">'+d.designTitle+'</div></div>';
-  html += '<div style="text-align:right;"><div style="font-size:10px;color:#aaa;margin-bottom:3px;">Design Style <strong style="color:#E8D9B5;">'+d.designStyle+'</strong></div><div style="font-size:10px;color:#aaa;margin-bottom:3px;">Event <strong style="color:#E8D9B5;">'+lastEvent+'</strong></div><div style="font-size:10px;color:#aaa;margin-bottom:6px;">Season <strong style="color:#E8D9B5;">'+lastSeason+'</strong></div><div style="display:flex;gap:8px;justify-content:flex-end;">'+swatches+'</div></div></div>';
-  html += '<div style="padding:28px 32px;">';
-  html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:28px;">';
-  html += '<div><div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#8B7340;font-weight:700;border-bottom:1px solid #E8D9B5;padding-bottom:6px;margin-bottom:12px;">Key Details</div><div style="background:#F9F5EF;border:1px solid #DDD6C8;padding:14px;border-radius:2px;">';
-  html += '<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dotted #E8E4DE;font-size:11px;"><span style="color:#6B6B6B;">Overall Height</span><span style="font-weight:500;">'+(kd.overallHeight||'--')+'</span></div>';
-  html += '<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dotted #E8E4DE;font-size:11px;"><span style="color:#6B6B6B;">Diameter</span><span style="font-weight:500;">'+(kd.diameter||'--')+'</span></div>';
-  html += '<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dotted #E8E4DE;font-size:11px;"><span style="color:#6B6B6B;">Vase / Structure</span><span style="font-weight:500;">'+(kd.vasetype||'--')+'</span></div>';
-  html += '<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dotted #E8E4DE;font-size:11px;"><span style="color:#6B6B6B;">Mechanics</span><span style="font-weight:500;">'+(kd.mechanics||'--')+'</span></div>';
-  html += '<div style="display:flex;justify-content:space-between;padding:6px 0;font-size:11px;"><span style="color:#6B6B6B;">Placement</span><span style="font-weight:500;">'+(kd.placement||'--')+'</span></div></div></div>';
-  html += '<div><div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#8B7340;font-weight:700;border-bottom:1px solid #E8D9B5;padding-bottom:6px;margin-bottom:12px;">Design Notes</div><div style="background:#F0EDE6;border-left:3px solid #C4A96A;padding:14px 16px;font-style:italic;font-size:13px;line-height:1.7;">'+(d.designNotes||'--')+'</div></div></div>';
-  html += '<div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#8B7340;font-weight:700;border-bottom:1px solid #E8D9B5;padding-bottom:6px;margin-bottom:12px;">Flower Recipe</div>';
-  html += '<table style="width:100%;border-collapse:collapse;margin-bottom:24px;"><thead><tr style="background:#F9F5EF;"><th style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#6B6B6B;padding:7px 8px;text-align:left;border-bottom:1px solid #DDD6C8;">#</th><th style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#6B6B6B;padding:7px 8px;text-align:left;border-bottom:1px solid #DDD6C8;">Flower</th><th style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#6B6B6B;padding:7px 8px;text-align:left;border-bottom:1px solid #DDD6C8;">Variety</th><th style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#6B6B6B;padding:7px 8px;text-align:left;border-bottom:1px solid #DDD6C8;">Qty</th><th style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#6B6B6B;padding:7px 8px;text-align:left;border-bottom:1px solid #DDD6C8;">%</th><th style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#6B6B6B;padding:7px 8px;text-align:left;border-bottom:1px solid #DDD6C8;">Notes</th></tr></thead><tbody>'+flowerRows+'<tr><td colspan="3" style="padding:6px 8px;background:#2C2C2C;color:#E8D9B5;font-weight:700;font-size:11px;">Total Stems</td><td style="padding:6px 8px;background:#2C2C2C;color:#E8D9B5;font-weight:700;">'+(d.totalStems||'--')+'</td><td style="padding:6px 8px;background:#2C2C2C;color:#E8D9B5;font-weight:700;">100%</td><td style="padding:6px 8px;background:#2C2C2C;"></td></tr></tbody></table>';
-  html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:28px;">';
-  html += '<div><div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#8B7340;font-weight:700;border-bottom:1px solid #E8D9B5;padding-bottom:6px;margin-bottom:12px;">Mechanics &amp; Supplies</div>'+supplies+'</div>';
-  html += '<div><div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#8B7340;font-weight:700;border-bottom:1px solid #E8D9B5;padding-bottom:6px;margin-bottom:12px;">Cost Estimate</div>';
-  html += '<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dotted #E8E4DE;font-size:12px;"><span>Flowers &amp; Greenery</span><span>'+(ce.flowersGreenery&&ce.flowersGreenery.range||'--')+' <span style="color:#6B6B6B;font-size:10px;">'+(ce.flowersGreenery&&ce.flowersGreenery.pct||'')+'</span></span></div>';
-  html += '<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dotted #E8E4DE;font-size:12px;"><span>Mechanics &amp; Supplies</span><span>'+(ce.mechanicsSupplies&&ce.mechanicsSupplies.range||'--')+'</span></div>';
-  html += '<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dotted #E8E4DE;font-size:12px;"><span>Labor &amp; Setup</span><span>'+(ce.laborSetup&&ce.laborSetup.range||'--')+'</span></div>';
-  html += '<div style="display:flex;justify-content:space-between;padding:10px 0 0;border-top:2px solid #2C2C2C;font-weight:700;font-size:13px;margin-top:4px;"><span>Total (Est.)</span><span>'+(ce.total||'--')+'</span></div></div></div>';
-  html += '<div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#8B7340;font-weight:700;border-bottom:1px solid #E8D9B5;padding-bottom:6px;margin-bottom:12px;">Assembly Guide</div>';
-  html += '<div class="ag">'+steps+'</div>';
-  html += '<div class="t3"><div><div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#8B7340;font-weight:700;border-bottom:1px solid #E8D9B5;padding-bottom:6px;margin-bottom:10px;">Production Tips</div>'+tips+'</div>';
-  html += '<div><div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#8B7340;font-weight:700;border-bottom:1px solid #E8D9B5;padding-bottom:6px;margin-bottom:10px;">Substitutions</div>'+subs+'</div>';
-  html += '<div><div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#8B7340;font-weight:700;border-bottom:1px solid #E8D9B5;padding-bottom:6px;margin-bottom:10px;">Care &amp; Handling</div>'+care+'</div></div>';
-  html += '<div style="text-align:center;margin-top:24px;padding-top:16px;border-top:1px solid #DDD6C8;font-size:10px;color:#6B6B6B;letter-spacing:1px;">Generated by Floral Recipe AI &nbsp;|&nbsp; niravchahwala.com &nbsp;|&nbsp; WedIQ</div>';
-  html += '</div></body></html>';
-
-  var w = window.open('','_blank');
-  if(w){ w.document.write(html); w.document.close(); setTimeout(function(){ w.focus(); w.print(); }, 800); }
-  else { alert('Please allow popups for this site, then click Save as PDF again.'); }
+  var w=window.open('','_blank');
+  if(w){w.document.write(html);w.document.close();setTimeout(function(){w.focus();w.print();},800);}
+  else{alert('Please allow popups for this site, then click Save as PDF again.');}
 }
 
-// ── RENDER SHEET ─────────────────────────────────────────────
-function renderSheet(d, eventType, season){
-  var ce = d.costEstimate||{};
-  var kd = d.keyDetails||{};
-  var swatches    = (d.colorPalette||[]).map(function(c){ return '<div class="swatch-wrap"><div class="swatch-circle" style="background:'+c.hex+'"></div><div class="swatch-name">'+c.name+'</div></div>'; }).join('');
-  var flowerRows  = (d.flowerRecipe||[]).map(function(f,i){ return '<tr><td><span class="num-badge">'+(i+1)+'</span></td><td><strong>'+f.name+'</strong></td><td style="font-size:11px;color:var(--grey)">'+f.variety+'</td><td>'+f.qty+'</td><td><span class="pct-badge">'+f.pct+'</span></td><td style="font-size:11px;color:var(--grey);font-style:italic">'+f.notes+'</td></tr>'; }).join('');
-  var supplies    = (d.mechanicsSupplies||[]).map(function(s){ return '<div class="supply-item"><span>'+s.item+'</span><span class="supply-qty">'+s.qty+'</span></div>'; }).join('');
-  var steps       = (d.assemblySteps||[]).map(function(s,i){ return '<div class="step-card"><div class="step-num">'+(i<9?'0'+(i+1):i+1)+'</div><div class="step-title">'+s.title+'</div><div class="step-desc">'+s.description+'</div></div>'; }).join('');
-  var tips        = (d.tips||[]).map(function(t){ return '<div class="tip-item"><div class="tip-dot"></div><span>'+t+'</span></div>'; }).join('');
-  var care        = (d.careHandling||[]).map(function(c){ return '<div class="tip-item"><div class="sage-dot"></div><span>'+c+'</span></div>'; }).join('');
-  var subs        = (d.substitutions||[]).map(function(s){ return '<div class="sub-item"><span style="flex:1">'+s.from+'</span><span class="sub-arrow">&#8594;</span><span class="sub-to" style="flex:1">'+s.to+'</span></div>'; }).join('');
+function renderSheet(d,eventType,season){
+  var ce=d.costEstimate||{};var kd=d.keyDetails||{};
+  var swatches=(d.colorPalette||[]).map(function(c){return '<div class="swatch-wrap"><div class="swatch-circle" style="background:'+c.hex+'"></div><div class="swatch-name">'+c.name+'</div></div>';}).join('');
+  var flowerRows=(d.flowerRecipe||[]).map(function(f,i){return '<tr><td><span class="num-badge">'+(i+1)+'</span></td><td><strong>'+f.name+'</strong></td><td style="font-size:11px;color:var(--sub)">'+f.variety+'</td><td>'+f.qty+'</td><td><span class="pct-badge">'+f.pct+'</span></td><td style="font-size:11px;color:var(--sub);font-style:italic">'+f.notes+'</td></tr>';}).join('');
+  var supplies=(d.mechanicsSupplies||[]).map(function(s){return '<div class="supply-item"><span>'+s.item+'</span><span class="supply-qty">'+s.qty+'</span></div>';}).join('');
+  var steps=(d.assemblySteps||[]).map(function(s,i){return '<div class="step-card"><div class="step-num">'+(i<9?'0'+(i+1):i+1)+'</div><div class="step-title">'+s.title+'</div><div class="step-desc">'+s.description+'</div></div>';}).join('');
+  var tips=(d.tips||[]).map(function(t){return '<div class="tip-item"><div class="tip-rule"></div><span>'+t+'</span></div>';}).join('');
+  var care=(d.careHandling||[]).map(function(c){return '<div class="tip-item"><div class="tip-rule"></div><span>'+c+'</span></div>';}).join('');
+  var subs=(d.substitutions||[]).map(function(s){return '<div class="sub-item"><span style="flex:1">'+s.from+'</span><span class="sub-arrow">&#8594;</span><span class="sub-to" style="flex:1">'+s.to+'</span></div>';}).join('');
 
-  document.getElementById('outputScreen').innerHTML =
-    '<div class="sheet-hd"><div><div class="sheet-sup">Floral Recipe &amp; Materials Technical Sheet</div><div class="sheet-title">'+(d.designTitle||'Floral Arrangement')+'</div></div>'+
-    '<div class="sheet-meta"><div class="meta-row">Design Style &nbsp;<strong>'+(d.designStyle||'')+'</strong></div><div class="meta-row">Event &nbsp;<strong>'+eventType+'</strong></div><div class="meta-row">Season &nbsp;<strong>'+season+'</strong></div><div class="color-row">'+swatches+'</div></div></div>'+
+  document.getElementById('outputScreen').innerHTML=
+    '<div class="sheet-hd"><div><div class="sheet-eyebrow">WedIQ Floral Magic Tool &nbsp;&middot;&nbsp; Technical Recipe Sheet</div><div class="sheet-title">'+(d.designTitle||'Floral Arrangement')+'</div><div class="sheet-style">'+(d.designStyle||'')+'</div></div>'+
+    '<div class="sheet-meta"><div class="meta-item">Event &nbsp;<strong>'+eventType+'</strong></div><div class="meta-item">Season &nbsp;<strong>'+season+'</strong></div><div class="color-row">'+swatches+'</div></div></div>'+
     '<div class="sheet-body">'+
     '<div class="grid2"><div><div class="sec-lbl">Key Details</div><div class="key-box">'+
     '<div class="kd-item"><span class="kd-lbl">Overall Height</span><span class="kd-val">'+(kd.overallHeight||'--')+'</span></div>'+
@@ -483,28 +459,26 @@ function renderSheet(d, eventType, season){
     '<div class="cost-total"><span>Total (Est.)</span><span>'+(ce.total||'--')+'</span></div></div></div>'+
     '<div class="sec-lbl">Assembly Guide</div><div class="assembly-grid">'+steps+'</div>'+
     '<div class="tips3"><div><div class="sec-lbl">Production Tips</div>'+tips+'</div>'+
-    '<div><div class="sec-lbl">Substitutions (if needed)</div>'+subs+'</div>'+
+    '<div><div class="sec-lbl">Substitutions</div>'+subs+'</div>'+
     '<div><div class="sec-lbl">Care &amp; Handling</div>'+care+'</div></div>'+
     '<div class="sheet-actions">'+
-    '<button class="btn-print" onclick="savePDF()">Save as PDF</button>'+
-    '<button class="btn-reset" onclick="resetTool()">Analyse Another Photo</button>'+
+    '<button class="btn-pdf" onclick="savePDF()">Save as PDF</button>'+
+    '<button class="btn-again" onclick="resetTool()">Analyse Another Photo</button>'+
     '</div></div>';
 }
 
-// ── RESET ────────────────────────────────────────────────────
 function resetTool(){
-  base64Data=''; lastSheet=null;
+  base64Data='';lastSheet=null;
   document.getElementById('fileInput').value='';
   document.getElementById('previewImg').src='';
   document.getElementById('previewWrap').style.display='none';
-  btnGen.disabled=true; btnGen.classList.remove('ready');
+  btnGen.disabled=true;btnGen.classList.remove('ready');
   document.getElementById('outputScreen').innerHTML='';
-  hide('outputScreen'); show('uploadScreen');
+  hide('outputScreen');show('uploadScreen');
   window.scrollTo({top:0,behavior:'smooth'});
 }
-
-function show(id){ document.getElementById(id).style.display='block'; }
-function hide(id){ document.getElementById(id).style.display='none'; }
+function show(id){document.getElementById(id).style.display='block';}
+function hide(id){document.getElementById(id).style.display='none';}
 </script>
 </body>
 </html>
