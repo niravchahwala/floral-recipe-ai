@@ -280,7 +280,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm);color:var(--text);m
 </div>
 
 <script>
-var SESSION_KEY='';var base64Data='';var mimeType='image/jpeg';var lastSheet=null;var lastEvent='';var lastSeason='';
+var SESSION_KEY='';var base64Data='';var imgSrcData='';var mimeType='image/jpeg';var lastSheet=null;var lastEvent='';var lastSeason='';
 
 function toggleKeyVisibility(){
   var inp=document.getElementById('apiKeyInput');
@@ -305,7 +305,7 @@ function saveKey(){
 function showApiError(msg){var err=document.getElementById('apiError');err.textContent=msg;err.style.display='block';}
 
 function changeKey(){
-  SESSION_KEY='';base64Data='';lastSheet=null;
+  SESSION_KEY='';base64Data='';imgSrcData='';lastSheet=null;
   document.getElementById('fileInput').value='';
   document.getElementById('previewImg').src='';
   document.getElementById('previewWrap').style.display='none';
@@ -336,6 +336,7 @@ function loadFile(file){
   var reader=new FileReader();
   reader.onload=function(e){
     var result=e.target.result;
+    imgSrcData=result;
     base64Data=result.split(',')[1];
     document.getElementById('previewImg').src=result;
     document.getElementById('previewWrap').style.display='block';
@@ -397,6 +398,7 @@ function savePDF(){
   html+='<div><div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#C47E84;margin-bottom:8px;">WedIQ Floral Magic Tool &nbsp;&middot;&nbsp; Technical Recipe Sheet</div><div style="font-family:Playfair Display,serif;font-size:24px;font-weight:600;font-style:italic;color:#F8F4F0;line-height:1.2;">'+d.designTitle+'</div><div style="font-size:10px;color:#5A4A47;margin-top:5px;letter-spacing:.5px;">'+d.designStyle+'</div></div>';
   html+='<div style="text-align:right;"><div style="font-size:10px;color:#5A4A47;margin-bottom:3px;">Event <strong style="color:#C8A8AC;font-weight:400;">'+lastEvent+'</strong></div><div style="font-size:10px;color:#5A4A47;margin-bottom:8px;">Season <strong style="color:#C8A8AC;font-weight:400;">'+lastSeason+'</strong></div><div style="display:flex;gap:8px;justify-content:flex-end;">'+swatches+'</div></div></div>';
   html+='<div style="padding:24px 32px;">';
+  if(imgSrcData){html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;"><div><div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#8B4A50;font-weight:600;border-bottom:1px solid #F0D5D8;padding-bottom:6px;margin-bottom:10px;">Reference Photo</div><img src="'+imgSrcData+'" style="width:100%;max-height:220px;object-fit:cover;display:block;border:1px solid #DDD0CC;"></div><div><div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#8B4A50;font-weight:600;border-bottom:1px solid #F0D5D8;padding-bottom:6px;margin-bottom:10px;">Design Notes</div><div style="background:#F8F4F0;border-left:2px solid #C47E84;padding:14px 16px;font-style:italic;font-size:12px;line-height:1.8;">'+(d.designNotes||'')+'</div></div></div>';}
   html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;">';
   html+='<div><div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#8B4A50;font-weight:600;border-bottom:1px solid #F0D5D8;padding-bottom:7px;margin-bottom:12px;">Key Details</div><div style="background:#F8F4F0;border:1px solid #DDD0CC;padding:16px;">';
   html+='<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #E8E0DC;font-size:11px;"><span style="color:#7A6B68;">Overall Height</span><span style="font-weight:500;">'+(kd.overallHeight||'--')+'</span></div>';
@@ -436,18 +438,22 @@ function renderSheet(d,eventType,season){
   var tips=(d.tips||[]).map(function(t){return '<div class="tip-item"><div class="tip-rule"></div><span>'+t+'</span></div>';}).join('');
   var care=(d.careHandling||[]).map(function(c){return '<div class="tip-item"><div class="tip-rule"></div><span>'+c+'</span></div>';}).join('');
   var subs=(d.substitutions||[]).map(function(s){return '<div class="sub-item"><span style="flex:1">'+s.from+'</span><span class="sub-arrow">&#8594;</span><span class="sub-to" style="flex:1">'+s.to+'</span></div>';}).join('');
+  // PHOTO BLOCK
+  var photoBlock=imgSrcData?('<div style="border:1px solid var(--bdr);overflow:hidden;margin-bottom:16px"><div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--sub);padding:8px 12px;background:var(--off);border-bottom:1px solid var(--bdr)">Reference Photo</div><img src="'+imgSrcData+'" style="width:100%;max-height:260px;object-fit:cover;display:block"></div>'):'';
 
   document.getElementById('outputScreen').innerHTML=
     '<div class="sheet-hd"><div><div class="sheet-eyebrow">WedIQ Floral Magic Tool &nbsp;&middot;&nbsp; Technical Recipe Sheet</div><div class="sheet-title">'+(d.designTitle||'Floral Arrangement')+'</div><div class="sheet-style">'+(d.designStyle||'')+'</div></div>'+
     '<div class="sheet-meta"><div class="meta-item">Event &nbsp;<strong>'+eventType+'</strong></div><div class="meta-item">Season &nbsp;<strong>'+season+'</strong></div><div class="color-row">'+swatches+'</div></div></div>'+
     '<div class="sheet-body">'+
+    '<div class="grid2" style="margin-bottom:32px"><div>'+photoBlock+'</div>'+
+    '<div><div class="sec-lbl">Design Notes</div><div class="design-notes">'+(d.designNotes||'--')+'</div></div></div>'+
     '<div class="grid2"><div><div class="sec-lbl">Key Details</div><div class="key-box">'+
     '<div class="kd-item"><span class="kd-lbl">Overall Height</span><span class="kd-val">'+(kd.overallHeight||'--')+'</span></div>'+
     '<div class="kd-item"><span class="kd-lbl">Diameter</span><span class="kd-val">'+(kd.diameter||'--')+'</span></div>'+
     '<div class="kd-item"><span class="kd-lbl">Vase / Structure</span><span class="kd-val">'+(kd.vasetype||'--')+'</span></div>'+
     '<div class="kd-item"><span class="kd-lbl">Mechanics</span><span class="kd-val">'+(kd.mechanics||'--')+'</span></div>'+
     '<div class="kd-item" style="border-bottom:none"><span class="kd-lbl">Placement</span><span class="kd-val">'+(kd.placement||'--')+'</span></div></div></div>'+
-    '<div><div class="sec-lbl">Design Notes</div><div class="design-notes">'+(d.designNotes||'--')+'</div></div></div>'+
+    '<div><div class="sec-lbl">Vase &amp; Mechanics</div><div class="design-notes" style="font-style:normal;font-size:13px;line-height:1.8">'+(kd.vasetype||'--')+' &nbsp;&middot;&nbsp; '+(kd.mechanics||'--')+'</div></div></div>'+
     '<div class="sec-lbl">Flower Recipe</div>'+
     '<table class="fra-table"><thead><tr><th>#</th><th>Flower / Greenery</th><th>Variety</th><th>Qty (Stems)</th><th>% of Total</th><th>Notes</th></tr></thead>'+
     '<tbody>'+flowerRows+'<tr class="total-row"><td colspan="3">Total Stems</td><td>'+(d.totalStems||'--')+'</td><td>100%</td><td></td></tr></tbody></table>'+
@@ -468,7 +474,7 @@ function renderSheet(d,eventType,season){
 }
 
 function resetTool(){
-  base64Data='';lastSheet=null;
+  base64Data='';imgSrcData='';lastSheet=null;
   document.getElementById('fileInput').value='';
   document.getElementById('previewImg').src='';
   document.getElementById('previewWrap').style.display='none';
