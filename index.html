@@ -355,13 +355,12 @@ async function generateSheet(){
   var prompt = 'You are a world-class floral designer and wedding production expert. Analyse this decor photo carefully and return ONLY a valid JSON object. No markdown, no code fences, no extra text. Use exactly this structure:\n\n{"designTitle":"Poetic name","designStyle":"e.g. Romantic Timeless","colorPalette":[{"name":"Color","hex":"#HEX"},{"name":"Color","hex":"#HEX"},{"name":"Color","hex":"#HEX"}],"keyDetails":{"overallHeight":"e.g. 100-120 cm","diameter":"e.g. 80-90 cm","vasetype":"e.g. Tall Glass Column","mechanics":"e.g. Floral foam, chicken wire","placement":"e.g. Guest tables"},"designNotes":"2-3 sentences describing the visual feel.","flowerRecipe":[{"name":"Rose","variety":"White Garden Rose","qty":15,"pct":"20%","notes":"Focal bloom"}],"totalStems":75,"mechanicsSupplies":[{"item":"Tall Glass Vase","qty":"2 pcs"},{"item":"Floral Foam","qty":"2 blocks"},{"item":"Chicken Wire","qty":"1 roll"},{"item":"Cable Ties","qty":"10 pcs"},{"item":"Water Tubes","qty":"10 pcs"},{"item":"Floral Tape","qty":"1 roll"},{"item":"Scissors","qty":"1"}],"costEstimate":{"flowersGreenery":{"range":"Rs.8000-12000","pct":"65%"},"mechanicsSupplies":{"range":"Rs.2500-4000","pct":"20%"},"laborSetup":{"range":"Rs.2000-3000","pct":"15%"},"total":"Rs.12500-19000"},"assemblySteps":[{"title":"Prepare Base","description":"Soak foam and place in vessel."},{"title":"Add Greenery","description":"Insert base greens to establish shape."},{"title":"Place Focal Blooms","description":"Position main flowers at varied heights."},{"title":"Add Fill Flowers","description":"Fill gaps with secondary blooms."},{"title":"Add Height","description":"Insert tall stems for movement."},{"title":"Final Balance","description":"Check from all sides, mist, adjust."}],"tips":["Order flowers 2-3 days in advance","Condition all flowers before designing","Build in spiral technique for natural flow"],"substitutions":[{"from":"Garden Rose","to":"Spray Rose"},{"from":"Hydrangea","to":"Lisianthus"},{"from":"Orchid","to":"Anthurium"}],"careHandling":["Keep away from direct sunlight","Replenish water in vase daily","Mist delicate flowers if needed"]}\n\nIdentify ALL visible flowers, foliage, and structural elements. Be specific and professional. Event: ' + eventType + '. Season: ' + season + '. Currency: ' + currency + '.';
 
   try {
-    var response = await fetch('https://api.anthropic.com/v1/messages', {
+    var response = await fetch('https://floral-proxy.niravchahwala.workers.dev', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'x-api-key': SESSION_KEY,
         'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-allow-browser': 'true'
       },
       body: JSON.stringify({
         model: 'claude-opus-4-5',
